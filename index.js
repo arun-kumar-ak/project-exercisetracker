@@ -5,6 +5,10 @@ require('dotenv').config()
 
 app.use(cors())
 app.use(express.static('public'))
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
+require("./database");
+app.use(require('./controllers/routes'));
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
