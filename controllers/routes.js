@@ -33,38 +33,20 @@ routes.get("/api/users/:_id/logs", async (req, res) => {
 					return true;
 				}
 			})
-			.map(dateParser);
-		if (limit) {
-			res.json({
-				username: result.username,
-				count: limit,
-				_id: result._id,
-				log: filteredResult.slice(0, limit),
-			});
-		} else {
-			res.json({
-				username: result.username,
-				count: filteredResult.length,
-				_id: result._id,
-				log: filteredResult,
-			});
-		}
+			.map(dateParser);	
+		res.json({
+			username: result.username,
+			count: limit ? limit : filteredResult.length,
+			_id: result._id,
+			log: limit ? filteredResult.slice(0, limit) :filteredResult,
+		});
 	} else {
-		if (limit) {
-			res.json({
-				username: result.username,
-				count: limit,
-				_id: result._id,
-				log: result.log.map(dateParser).slice(0, limit),
-			});
-		} else {
-			res.json({
-				username: result.username,
-				count: result.log.length,
-				_id: result._id,
-				log: result.log.map(dateParser),
-			});
-		}
+		res.json({
+			username: result.username,
+			count: limit ? limit : result.log.length,
+			_id: result._id,
+			log: limit ? result.log.map(dateParser).slice(0, limit) :result.log.map(dateParser),
+		});		
 	}
 });
 
